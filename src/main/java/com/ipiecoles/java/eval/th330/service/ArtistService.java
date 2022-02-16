@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
@@ -18,9 +19,6 @@ public class ArtistService {
 
     @Autowired
     private ArtistRepository artistRepository;
-
-    @Autowired
-    private AlbumRepository albumRepository;
 
     public Page<Artist> findAllArtists(Integer page, Integer size, String sortProperty, String sortDirection) {
         Sort sort = Sort.by(Sort.Direction.fromString(sortDirection),sortProperty);
@@ -34,6 +32,18 @@ public class ArtistService {
             throw new EntityNotFoundException("Impossible de trouver l'artiste d'identifiant " + id);
         }
         return artist.get();
+    }
+
+    public Boolean existsById(Long id) {
+        try {
+            return artistRepository.existsById(id);
+        } catch (EntityNotFoundException e) {
+            throw new EntityNotFoundException("Impossible de trouver l'artiste d'identifiant " + id);
+        }
+    }
+
+    public Boolean existsByName(String name) {
+        return artistRepository.existsByNameIgnoreCase(name);
     }
 
     public Long countAllArtists() {
