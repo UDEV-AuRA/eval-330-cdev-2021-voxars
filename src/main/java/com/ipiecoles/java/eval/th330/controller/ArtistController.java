@@ -26,6 +26,7 @@ public class ArtistController {
     private AlbumService albumService;
 
     //Afficher un artiste avec son id
+    /*
     @RequestMapping(
             method = RequestMethod.GET,
             value = "/{id}"
@@ -36,7 +37,7 @@ public class ArtistController {
         ModelAndView modelAndView = new ModelAndView("detail");
         modelAndView.addObject("artist", artistService.findById(id));
         return modelAndView;
-    }
+    }*/
     //Afficher les artistes par nom
     @RequestMapping(
             method = RequestMethod.GET,
@@ -121,5 +122,41 @@ public class ArtistController {
             }
         }
         return new RedirectView("/artists/" + artist.getId());
+    }
+    //Afficher le formulaire d'ajout/modification d'un artiste
+    @RequestMapping(
+            method = RequestMethod.GET,
+            value = "/{id}/edit"
+    )
+    public ModelAndView getFormEditArtist(
+            @PathVariable Long id
+    ) {
+        ModelAndView modelAndView = new ModelAndView("detail");
+        modelAndView.addObject("artist", artistService.findById(id));
+        return modelAndView;
+    }
+    //Afficher un artiste
+    @RequestMapping(
+            method = RequestMethod.GET,
+            value = "/{id}"
+    )
+    public ModelAndView getArtist(
+            @PathVariable Long id
+    ) {
+        ModelAndView modelAndView = new ModelAndView("detail");
+        modelAndView.addObject("artist", artistService.findById(id));
+        return modelAndView;
+    }
+    //Afficher les albums d'un artiste
+    @RequestMapping(
+            method = RequestMethod.GET,
+            value = "/{id}/albums"
+    )
+    public ModelAndView getArtistAlbums(
+            @PathVariable Long id
+    ) {
+        ModelAndView modelAndView = new ModelAndView("liste");
+        modelAndView.addObject("albums", albumService.getAllAlbumsByArtistId(id));
+        return modelAndView;
     }
 }

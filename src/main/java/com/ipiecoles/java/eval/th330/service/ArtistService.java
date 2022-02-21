@@ -46,6 +46,16 @@ public class ArtistService {
         return artistRepository.existsByNameIgnoreCase(name);
     }
 
+    public Artist updateArtiste(Long id, Artist artist) {
+        return artistRepository.save(artist);
+    }
+
+    public Page<Artist> findByNameLikeIgnoreCase(String name, Integer page, Integer size, String sortProperty, String sortDirection) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection),sortProperty);
+        Pageable pageable = PageRequest.of(page,size,sort);
+        return artistRepository.findByNameContainingIgnoreCase(name, pageable);
+    }
+
     public Long countAllArtists() {
         return artistRepository.count();
     }
@@ -56,17 +66,5 @@ public class ArtistService {
 
     public void deleteArtist(Long id) {
         artistRepository.deleteById(id);
-    }
-
-    public Artist updateArtiste(Long id, Artist artist) {
-        return artistRepository.save(artist);
-    }
-
-
-
-    public Page<Artist> findByNameLikeIgnoreCase(String name, Integer page, Integer size, String sortProperty, String sortDirection) {
-        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection),sortProperty);
-        Pageable pageable = PageRequest.of(page,size,sort);
-        return artistRepository.findByNameContainingIgnoreCase(name, pageable);
     }
 }

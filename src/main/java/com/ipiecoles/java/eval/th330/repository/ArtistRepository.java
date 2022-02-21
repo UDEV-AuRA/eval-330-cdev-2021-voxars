@@ -10,5 +10,9 @@ public interface ArtistRepository extends JpaRepository<Artist, Long> {
 
     Boolean existsByNameIgnoreCase(String name);
 
+    Boolean existsByNameIgnoreCaseAndIdNot(String name, Long id);
+
+    Page<Artist> findAllByNameContainingIgnoreCase(String name, Pageable pageable);
+
     Page<Artist> findByNameContainingIgnoreCase(String name, Pageable pageable);
 }

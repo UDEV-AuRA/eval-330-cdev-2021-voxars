@@ -56,4 +56,5 @@ public class AlbumController {
         redirectAttributes.addFlashAttribute("flashMessage", "Suppresion effectuée avec succès !");
         return new RedirectView("/artists/" + artistId);
     }
+
 }
