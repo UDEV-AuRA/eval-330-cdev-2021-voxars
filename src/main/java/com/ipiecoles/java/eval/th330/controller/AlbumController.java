@@ -36,7 +36,7 @@ public class AlbumController {
     ) {
         Artist artist = artistService.findById(artistId);
         album.setArtist(artist);
-        albumService.creerAlbum(album);
+        albumService.createAlbum(album);
 
         redirectAttributes.addFlashAttribute("flashMessage", "Ajout de " + album.getTitle() + " réussis !");
         return new RedirectView("/artists/" + artistId);

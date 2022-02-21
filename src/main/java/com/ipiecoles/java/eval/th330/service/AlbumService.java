@@ -13,7 +13,7 @@ public class AlbumService {
     @Autowired
     private AlbumRepository albumRepository;
 
-    public Album creerAlbum(Album album) {
+    public Album createAlbum(Album album) {
         return albumRepository.save(album);
     }
 
