@@ -18,9 +18,10 @@ public class AlbumService {
     }
 
     public void deleteAlbum(Long id) {
-
-        albumRepository.deleteById(id);
+        //albumRepository.deleteById(id);
     }
 
-    public List<Album> getAllAlbumsByArtistId(Long id) {return albumRepository.findAllByArtist_Id(id);}
+    public List<Album> getAllAlbumsByArtistId(Long id) {
+        //return albumRepository.findAllByArtist_Id(id);
+    }
 }

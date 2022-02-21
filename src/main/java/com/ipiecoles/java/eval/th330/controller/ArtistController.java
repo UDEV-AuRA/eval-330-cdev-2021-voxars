@@ -25,7 +25,7 @@ public class ArtistController {
     @Autowired
     private AlbumService albumService;
 
-
+    //Afficher un artiste avec son id
     @RequestMapping(
             method = RequestMethod.GET,
             value = "/{id}"
@@ -37,7 +37,7 @@ public class ArtistController {
         modelAndView.addObject("artist", artistService.findById(id));
         return modelAndView;
     }
-
+    //Afficher les artistes par nom
     @RequestMapping(
             method = RequestMethod.GET,
             value = "",
@@ -51,7 +51,7 @@ public class ArtistController {
         return modelAndView;
     }
 
-
+    //Afficher tous les artistes
     @RequestMapping(
             method = RequestMethod.GET,
             value = ""
@@ -68,7 +68,7 @@ public class ArtistController {
         modelAndView.addObject("artists", artistService.findAllArtists(page, size, sortProperty, sortDirection));
         return modelAndView;
     }
-
+    //Ajouter un artiste
     @RequestMapping(
             method = RequestMethod.GET,
             value = "/new"
@@ -78,36 +78,7 @@ public class ArtistController {
         modelAndView.addObject("artist", new Artist());
         return modelAndView;
     }
-
-    @RequestMapping(
-            method = RequestMethod.POST,
-            value = "",
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
-    )
-    public RedirectView addOrUpdateArtist(
-            Artist artist,
-            RedirectAttributes redirectAttributes
-    ){
-        if (artistService.existsByName(artist.getName().trim())) {
-            throw new EntityExistsException("L'artiste " + artist.getName() + " existe déjà dans la base !");
-        }
-
-        if(artist.getId() == null){
-            artistService.creerArtiste(artist);
-            redirectAttributes.addFlashAttribute("flashMessage", "Création de l'artiste " + artist.getName() + " réalisée avec succès !");
-        }
-        else
-        {
-
-            if (artistService.existsById(artist.getId())) {
-                artistService.updateArtiste(artist.getId(), artist);
-                redirectAttributes.addFlashAttribute("flashMessage", "Modification de l'artiste " + artist.getName() +  " réalisée avec succès !");
-            }
-        }
-        return new RedirectView("/artists/" + artist.getId());
-    }
-
-
+    //Supprimer un artiste
     @RequestMapping(
             method = RequestMethod.GET,
             value = "/delete/{id}"
@@ -123,5 +94,32 @@ public class ArtistController {
         artistService.deleteArtist(id);
         redirectAttributes.addFlashAttribute("flashMessage", "Suppresion effectuée avec succès !");
         return new RedirectView("/artists?page=0&size=10&sortProperty=name&sortDirection=ASC");
+    }
+    //Ajouter/modifier un artiste dans la base de données (si l'artist n'existe pas déjà)
+    @RequestMapping(
+            method = RequestMethod.POST,
+            value = "",
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    )
+    public RedirectView addOrUpdateArtist(
+            Artist artist,
+            RedirectAttributes redirectAttributes
+    ){
+        if (artistService.existsByName(artist.getName().trim())) {
+            throw new EntityExistsException("L'artiste " + artist.getName() + " existe déjà !");
+        }
+
+        if(artist.getId() == null){
+            artistService.creerArtiste(artist);
+            redirectAttributes.addFlashAttribute("flashMessage", "Création de l'artiste " + artist.getName() + " réalisée avec succès !");
+        }
+        else
+        {
+            if (artistService.existsById(artist.getId())) {
+                artistService.updateArtiste(artist.getId(), artist);
+                redirectAttributes.addFlashAttribute("flashMessage", "Modification de l'artiste " + artist.getName() +  " réalisée avec succès !");
+            }
+        }
+        return new RedirectView("/artists/" + artist.getId());
     }
 }

@@ -23,7 +23,7 @@ public class AlbumController {
     @Autowired
     private ArtistService artistService;
 
-
+    //Ajout d'un album
     @RequestMapping(
             method = RequestMethod.POST,
             value = "/new/artist/{artistId}",
@@ -38,11 +38,11 @@ public class AlbumController {
         album.setArtist(artist);
         albumService.creerAlbum(album);
 
-        redirectAttributes.addFlashAttribute("flashMessage", "Ajout de l'album " + album.getTitle() + " réussis !");
+        redirectAttributes.addFlashAttribute("flashMessage", "Ajout de " + album.getTitle() + " réussis !");
         return new RedirectView("/artists/" + artistId);
     }
 
-
+    //Suppression d'un album
     @RequestMapping(
             method = RequestMethod.GET,
             value = "/delete/{albumId}/artist/{artistId}"

@@ -62,6 +62,8 @@ public class ArtistService {
         return artistRepository.save(artist);
     }
 
+
+
     public Page<Artist> findByNameLikeIgnoreCase(String name, Integer page, Integer size, String sortProperty, String sortDirection) {
         Sort sort = Sort.by(Sort.Direction.fromString(sortDirection),sortProperty);
         Pageable pageable = PageRequest.of(page,size,sort);

@@ -29,7 +29,25 @@ public class ControllerExceptionHandler {
         return modelAndView;
     }
 
-    // Entité déjà existante
+    //Paramètre manquant
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ModelAndView handleMissingServletRequestParameterException(MissingServletRequestParameterException e){
+        ModelAndView modelAndView = new ModelAndView("error");
+        modelAndView.addObject("code", CODE_BAD_REQUEST);
+        modelAndView.addObject("errorMessage", "Le paramètre " + e.getParameterName() + " n'est pas présent et est obligatoire.");
+        return modelAndView;
+    }
+
+    //Model non trouvé
+    @ExceptionHandler(PropertyReferenceException.class)
+    public ModelAndView handlePropertyReferenceException(PropertyReferenceException e){
+        ModelAndView modelAndView = new ModelAndView("error");
+        modelAndView.addObject("code", CODE_BAD_REQUEST);
+        modelAndView.addObject("errorMessage", e.getMessage() );
+        return modelAndView;
+    }
+
+    //Entité déjà existante
     @ExceptionHandler(EntityExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ModelAndView handleEntityExistsException(EntityExistsException e){
@@ -39,16 +57,8 @@ public class ControllerExceptionHandler {
         return modelAndView;
     }
 
-    // Type incorrect
-    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ModelAndView handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e){
-        ModelAndView modelAndView = new ModelAndView("error");
-        modelAndView.addObject("code", CODE_BAD_REQUEST);
-        modelAndView.addObject("errorMessage", "La valeur du paramètre " + e.getName() + " est incorrecte");
-        return modelAndView;
-    }
 
-    // Argument incorrect
+    //Argument incorrect
     @ExceptionHandler(IllegalArgumentException.class)
     public ModelAndView handleIllegalArgumentException(IllegalArgumentException e){
         ModelAndView modelAndView = new ModelAndView("error");
@@ -57,21 +67,5 @@ public class ControllerExceptionHandler {
         return modelAndView;
     }
 
-    // Paramètre manquant
-    @ExceptionHandler(MissingServletRequestParameterException.class)
-    public ModelAndView handleMissingServletRequestParameterException(MissingServletRequestParameterException e){
-        ModelAndView modelAndView = new ModelAndView("error");
-        modelAndView.addObject("code", CODE_BAD_REQUEST);
-        modelAndView.addObject("errorMessage", "Le paramètre " + e.getParameterName() + " n'est pas présent et est obligatoire.");
-        return modelAndView;
-    }
 
-    // Propriété d'un model non trouvée
-    @ExceptionHandler(PropertyReferenceException.class)
-    public ModelAndView handlePropertyReferenceException(PropertyReferenceException e){
-        ModelAndView modelAndView = new ModelAndView("error");
-        modelAndView.addObject("code", CODE_BAD_REQUEST);
-        modelAndView.addObject("errorMessage", e.getMessage() );
-        return modelAndView;
-    }
 }

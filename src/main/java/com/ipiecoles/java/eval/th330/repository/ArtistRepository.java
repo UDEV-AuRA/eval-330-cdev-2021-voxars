@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface ArtistRepository extends JpaRepository<Artist, Long> {
+
     Boolean existsByNameIgnoreCase(String name);
+
     Page<Artist> findByNameContainingIgnoreCase(String name, Pageable pageable);
 }
